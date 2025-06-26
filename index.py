@@ -3,11 +3,11 @@ from tkinter import messagebox, ttk
 import sqlite3
 import datetime
 
-# DB Setup
+
 conn = sqlite3.connect('todo_advanced.db')
 c = conn.cursor()
 
-# Create tables if not exist
+
 c.execute('''
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS tasks (
 ''')
 conn.commit()
 
-# App class
+
 class ToDoApp:
     def __init__(self, root):
         self.root = root
@@ -138,7 +138,7 @@ class ToDoApp:
             widget.configure(bg=bg, fg=fg)
         self.tree.tag_configure('evenrow', background=bg, foreground=fg)
 
-# Main app
+
 root = tk.Tk()
 app = ToDoApp(root)
 root.mainloop()
