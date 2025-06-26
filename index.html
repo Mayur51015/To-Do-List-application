@@ -319,7 +319,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- Login/Signup Screen -->
+        
         <div id="auth-screen">
             <header>
                 <h1>To-Do List</h1>
@@ -332,7 +332,7 @@
                     <button id="signup-tab" class="btn btn-outline">Sign Up</button>
                 </div>
                 
-                <!-- Login Form -->
+               
                 <div id="login-form">
                     <div class="form-group">
                         <label for="login-username">Username</label>
@@ -347,7 +347,7 @@
                     </div>
                 </div>
                 
-                <!-- Signup Form -->
+                
                 <div id="signup-form" class="hidden">
                     <div class="form-group">
                         <label for="signup-username">Username</label>
@@ -368,7 +368,7 @@
             </div>
         </div>
         
-        <!-- Main App Screen -->
+       
         <div id="app-screen" class="hidden">
             <header>
                 <h1>My To-Do List</h1>
@@ -399,7 +399,7 @@
             <div class="card tasks-container">
                 <h2>Your Tasks</h2>
                 <ul id="task-list" class="task-list">
-                    <!-- Tasks will be added here dynamically -->
+                  
                 </ul>
                 <div id="empty-state" class="empty-state">
                     <p>No tasks yet. Add your first task above!</p>
@@ -409,13 +409,13 @@
     </div>
 
     <script>
-        // Simulated database
+        
         let users = JSON.parse(localStorage.getItem('todoUsers')) || [];
         let tasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
         let currentUser = null;
         let darkMode = localStorage.getItem('darkMode') === 'true';
 
-        // DOM Elements
+        
         const authScreen = document.getElementById('auth-screen');
         const appScreen = document.getElementById('app-screen');
         const loginForm = document.getElementById('login-form');
@@ -426,14 +426,14 @@
         const emptyState = document.getElementById('empty-state');
         const alertContainer = document.getElementById('alert-container');
 
-        // Initialize
+        
         document.addEventListener('DOMContentLoaded', () => {
             // Set theme
             if (darkMode) {
                 document.body.classList.add('dark-mode');
             }
             
-            // Check if user is already logged in
+            
             const loggedInUserId = localStorage.getItem('currentUser');
             if (loggedInUserId) {
                 const user = users.find(u => u.id === loggedInUserId);
@@ -444,7 +444,7 @@
             }
         });
 
-        // Event Listeners
+        
         loginTab.addEventListener('click', () => {
             loginTab.classList.add('active');
             signupTab.classList.remove('active');
@@ -466,7 +466,7 @@
         document.getElementById('auth-theme-toggle').addEventListener('click', toggleTheme);
         document.getElementById('app-theme-toggle').addEventListener('click', toggleTheme);
 
-        // Functions
+        
         function login() {
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
@@ -642,7 +642,7 @@
             localStorage.setItem('todoTasks', JSON.stringify(tasks));
         }
 
-        // Make functions available globally for inline event handlers
+       
         window.deleteTask = deleteTask;
     </script>
 </body>
