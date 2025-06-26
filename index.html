@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced To-Do List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --dark-bg: #1a1a2e;
+            --dark-card: #16213e;
+            --dark-text: #e6e6e6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        body.dark-mode header {
+            border-bottom-color: #333;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        body.dark-mode h1 {
+            color: var(--success);
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .card {
+            background-color: var(--dark-card);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        body.dark-mode input, 
+        body.dark-mode select {
+            background-color: #2a2a3a;
+            border-color: #333;
+            color: var(--dark-text);
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        body.dark-mode .btn-outline {
+            color: var(--dark-text);
+            border-color: var(--dark-text);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .tasks-container {
+            margin-top: 30px;
+        }
+
+        .task-list {
+            list-style-type: none;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .task-item {
+            background-color: var(--dark-card);
+        }
+
+        .task-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .task-due {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        body.dark-mode .task-due {
+            color: #aaa;
+        }
+
+        .task-actions button {
+            margin-left: 10px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .task-actions button:hover {
+            opacity: 0.8;
+        }
+
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .theme-toggle {
+            color: var(--dark-text);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--gray);
+        }
+
+        body.dark-mode .empty-state {
+            color: #777;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        body.dark-mode .alert-success {
+            background-color: #1a3a1f;
+            color: #a3e5b1;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        body.dark-mode .alert-danger {
+            background-color: #3a1a22;
+            color: #f5a3b7;
+        }
+
+        .close-alert {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login/Signup Screen -->
+        <div id="auth-screen">
+            <header>
+                <h1>To-Do List</h1>
+                <button class="theme-toggle" id="auth-theme-toggle">🌓</button>
+            </header>
+            
+            <div class="card">
+                <div class="nav-tabs">
+                    <button id="login-tab" class="btn btn-outline active">Login</button>
+                    <button id="signup-tab" class="btn btn-outline">Sign Up</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="login-form">
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="form-group">
+                        <button id="login-btn" class="btn btn-block">Login</button>
+                    </div>
+                </div>
+                
+                <!-- Signup Form -->
+                <div id="signup-form" class="hidden">
+                    <div class="form-group">
+                        <label for="signup-username">Username</label>
+                        <input type="text" id="signup-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" required>
+                    </div>
+                    <div class="form-group">
+                        <button id="signup-btn" class="btn btn-block btn-success">Create Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main App Screen -->
+        <div id="app-screen" class="hidden">
+            <header>
+                <h1>My To-Do List</h1>
+                <div>
+                    <button class="theme-toggle" id="app-theme-toggle">🌓</button>
+                    <button id="logout-btn" class="btn btn-outline">Logout</button>
+                </div>
+            </header>
+            
+            <div class="card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-input">New Task</label>
+                        <input type="text" id="task-input" placeholder="What needs to be done?">
+                    </div>
+                    <div class="form-group">
+                        <label for="due-date">Due Date</label>
+                        <input type="date" id="due-date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="add-task-btn" class="btn btn-block">Add Task</button>
+                </div>
+            </div>
+            
+            <div id="alert-container"></div>
+            
+            <div class="card tasks-container">
+                <h2>Your Tasks</h2>
+                <ul id="task-list" class="task-list">
+                    <!-- Tasks will be added here dynamically -->
+                </ul>
+                <div id="empty-state" class="empty-state">
+                    <p>No tasks yet. Add your first task above!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulated database
+        let users = JSON.parse(localStorage.getItem('todoUsers')) || [];
+        let tasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
+        let currentUser = null;
+        let darkMode = localStorage.getItem('darkMode') === 'true';
+
+        // DOM Elements
+        const authScreen = document.getElementById('auth-screen');
+        const appScreen = document.getElementById('app-screen');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const taskList = document.getElementById('task-list');
+        const emptyState = document.getElementById('empty-state');
+        const alertContainer = document.getElementById('alert-container');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set theme
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            // Check if user is already logged in
+            const loggedInUserId = localStorage.getItem('currentUser');
+            if (loggedInUserId) {
+                const user = users.find(u => u.id === loggedInUserId);
+                if (user) {
+                    currentUser = user;
+                    showAppScreen();
+                }
+            }
+        });
+
+        // Event Listeners
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('active');
+            signupTab.classList.remove('active');
+            loginForm.classList.remove('hidden');
+            signupForm.classList.add('hidden');
+        });
+
+        signupTab.addEventListener('click', () => {
+            signupTab.classList.add('active');
+            loginTab.classList.remove('active');
+            signupForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
+
+        document.getElementById('login-btn').addEventListener('click', login);
+        document.getElementById('signup-btn').addEventListener('click', signup);
+        document.getElementById('logout-btn').addEventListener('click', logout);
+        document.getElementById('add-task-btn').addEventListener('click', addTask);
+        document.getElementById('auth-theme-toggle').addEventListener('click', toggleTheme);
+        document.getElementById('app-theme-toggle').addEventListener('click', toggleTheme);
+
+        // Functions
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!username || !password) {
+                showAlert('Please enter both username and password', 'danger');
+                return;
+            }
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', user.id);
+                showAppScreen();
+                showAlert(`Welcome back, ${user.username}!`, 'success');
+            } else {
+                showAlert('Invalid username or password', 'danger');
+            }
+        }
+
+        function signup() {
+            const username = document.getElementById('signup-username').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            
+            if (!username || !password || !confirmPassword) {
+                showAlert('Please fill all fields', 'danger');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match', 'danger');
+                return;
+            }
+            
+            if (users.some(u => u.username === username)) {
+                showAlert('Username already exists', 'danger');
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now().toString(),
+                username,
+                password
+            };
+            
+            users.push(newUser);
+            saveUsers();
+            
+            showAlert('Account created successfully! Please log in.', 'success');
+            loginTab.click();
+            document.getElementById('signup-form').reset();
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            authScreen.classList.remove('hidden');
+            appScreen.classList.add('hidden');
+            document.getElementById('login-form').reset();
+        }
+
+        function showAppScreen() {
+            authScreen.classList.add('hidden');
+            appScreen.classList.remove('hidden');
+            renderTasks();
+        }
+
+        function addTask() {
+            const taskInput = document.getElementById('task-input');
+            const dueDateInput = document.getElementById('due-date');
+            const taskText = taskInput.value.trim();
+            const dueDate = dueDateInput.value;
+            
+            if (!taskText) {
+                showAlert('Please enter a task', 'danger');
+                return;
+            }
+            
+            if (!dueDate) {
+                showAlert('Please select a due date', 'danger');
+                return;
+            }
+            
+            const newTask = {
+                id: Date.now().toString(),
+                userId: currentUser.id,
+                task: taskText,
+                dueDate: formatDate(dueDate),
+                rawDueDate: dueDate
+            };
+            
+            tasks.push(newTask);
+            saveTasks();
+            
+            taskInput.value = '';
+            dueDateInput.value = '';
+            
+            renderTasks();
+            showAlert('Task added successfully!', 'success');
+        }
+
+        function deleteTask(taskId) {
+            tasks = tasks.filter(t => t.id !== taskId);
+            saveTasks();
+            renderTasks();
+            showAlert('Task deleted', 'success');
+        }
+
+        function renderTasks() {
+            const userTasks = tasks.filter(t => t.userId === currentUser.id);
+            
+            taskList.innerHTML = '';
+            
+            if (userTasks.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            
+            userTasks.sort((a, b) => new Date(a.rawDueDate) - new Date(b.rawDueDate));
+            
+            userTasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+                taskItem.innerHTML = `
+                    <div class="task-info">
+                        <div class="task-title">${task.task}</div>
+                        <div class="task-due">Due: ${task.dueDate}</div>
+                    </div>
+                    <div class="task-actions">
+                        <button class="delete-btn" onclick="deleteTask('${task.id}')">Delete</button>
+                    </div>
+                `;
+                taskList.appendChild(taskItem);
+            });
+        }
+
+        function toggleTheme() {
+            darkMode = !darkMode;
+            localStorage.setItem('darkMode', darkMode);
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <span>${message}</span>
+                <button class="close-alert" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        function saveUsers() {
+            localStorage.setItem('todoUsers', JSON.stringify(users));
+        }
+
+        function saveTasks() {
+            localStorage.setItem('todoTasks', JSON.stringify(tasks));
+        }
+
+        // Make functions available globally for inline event handlers
+        window.deleteTask = deleteTask;
+    </script>
+</body>
+</html>
